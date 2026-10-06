@@ -1,0 +1,92 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Staging model for customer data"
+
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: email
+        data_tests:
+          - not_null
+          - unique
+
+
+  - name: stg_products
+    description: "Staging model for product data"
+
+    columns:
+      - name: product_id
+        data_tests:
+          - not_null
+          - unique
+
+     
+
+      - name: product_name
+        data_tests:
+          - not_null
+
+
+  - name: stg_orders
+    description: "Staging model for order data"
+
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+
+      - name: quantity
+        data_tests:
+          - not_null
+
+      - name: order_status
+        data_tests:
+          - not_null
+
+
+  - name: stg_reviews
+    description: "Staging model for review data"
+
+    columns:
+      - name: review_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
